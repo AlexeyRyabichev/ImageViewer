@@ -3,20 +3,20 @@ package com.ryabichev.alexey.imageviewer.PixabayStuff;
 import java.util.ArrayList;
 
 public class PixabayAnswer {
-    private int totalHits;
-    private ArrayList<PixabayImage> hits;
+	private int totalHits;
+	private ArrayList<PixabayImage> hits;
 
-    public PixabayAnswer(int totalHits, ArrayList<PixabayImage> hits) {
-        this.totalHits = totalHits;
-        this.hits = hits;
-    }
+	public PixabayAnswer(int totalHits, ArrayList<PixabayImage> hits) {
+		this.totalHits = totalHits;
+		this.hits = hits;
+	}
 
-    public int getTotalHits() {
+	public int getTotalHits() {
 
-        return totalHits;
-    }
+		return totalHits;
+	}
 
-    public ArrayList<PixabayImage> getHits() {
-        return hits;
-    }
+	public ArrayList<PixabayImage> getHits() {
+		return hits;
+	}
 }
