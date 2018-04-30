@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.gson.Gson;
@@ -19,6 +22,7 @@ import com.ryabichev.alexey.imageviewer.AsyncStuff.AsyncResults;
 import com.ryabichev.alexey.imageviewer.PixabayStuff.PixabayAnswer;
 import com.ryabichev.alexey.imageviewer.PixabayStuff.PixabayImage;
 
+import java.security.Key;
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
@@ -26,36 +30,50 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements AsyncResults {
 
 	SpinKitView spinKitView;
+	TextView searchText;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		ButterKnife.bind(this);
 
-		final TextView searchText = findViewById(R.id.search_text);
+		searchText = findViewById(R.id.search_text);
 		final ImageButton searchButton = findViewById(R.id.search_button);
 		spinKitView = findViewById(R.id.image_loader_SpinKit);
 		spinKitView.setVisibility(View.GONE);
 
+		//region Listeners
+		searchText.setOnKeyListener(new View.OnKeyListener() {
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+					FillView();
+				return true;
+			}
+		});
 		searchButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String request = "https://pixabay.com/api/?key=" + getString(R.string.api_key) + "&q=" + searchText.getText().toString().replaceAll(" ", "+") + "&image_type=photo";
-				FillView(request);
+				FillView();
 			}
 		});
+		//endregion
 	}
 
 	/**
-	 * @param request
-	 * 		request to Pixabay
+	 * Fills view with pictures
 	 */
-	private void FillView(String request) {
+	private void FillView() {
+		String request = "https://pixabay.com/api/?key=" + getString(R.string.api_key) + "&q=" + searchText.getText().toString().replaceAll(" ", "+") + "&image_type=photo";
 		spinKitView.setVisibility(View.VISIBLE);
 		AsyncRequest asyncRequest = new AsyncRequest();
 		asyncRequest.delegate = this;
-		asyncRequest.execute(request);
+		try {
+			asyncRequest.execute(request);
+		}catch (Exception e){
+			Log.e("EXECUTE EXCEPTION", e.getMessage());
+			Toast.makeText(this, R.string.custom_exception, Toast.LENGTH_LONG).show();
+		}
 	}
 
 	/**
@@ -69,14 +87,19 @@ public class MainActivity extends AppCompatActivity implements AsyncResults {
 
 		ArrayList<PixabayImage> pixabayImages = new ArrayList<PixabayImage>();
 
+		try {
+			RecyclerView imagesView = findViewById(R.id.images_recyclerView);
+			RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
+			ImagesAdapter imagesAdapter = new ImagesAdapter(this, pixabayAnswer.getHits());
+			imagesView.setLayoutManager(layoutManager);
+			imagesView.setAdapter(imagesAdapter);
+			imagesView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
+		}catch (Exception e){
+			Log.e("EXECUTE EXCEPTION", e.getMessage());
+			Toast.makeText(this, R.string.custom_exception, Toast.LENGTH_LONG).show();
+		}
 		spinKitView.setVisibility(View.GONE);
 		//RecyclerView
-		RecyclerView imagesView = findViewById(R.id.images_recyclerView);
-		RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
-		ImagesAdapter imagesAdapter = new ImagesAdapter(this, pixabayAnswer.getHits());
-		imagesView.setLayoutManager(layoutManager);
-		imagesView.setAdapter(imagesAdapter);
-		imagesView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
 	}
 
 	/**

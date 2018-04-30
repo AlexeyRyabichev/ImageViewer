@@ -1,6 +1,8 @@
 package com.ryabichev.alexey.imageviewer.AsyncStuff;
 
 import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -45,9 +47,15 @@ public class AsyncRequest extends AsyncTask<String, Integer, String> {
 			response = okHttpClient.newCall(request).execute();
 		} catch (IOException e) {
 			e.printStackTrace();
+			return null;
 		}
 
-		return response.body().string();
+		try {
+			return response.body().string();
+		}catch (Exception e){
+			Log.e("EXECUTE EXCEPTION", e.getMessage());
+			throw e;
+		}
 	}
 
 }
