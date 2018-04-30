@@ -47,6 +47,10 @@ public class MainActivity extends AppCompatActivity implements AsyncResults {
 		});
 	}
 
+	/**
+	 * @param request
+	 * 		request to Pixabay
+	 */
 	private void FillView(String request) {
 		spinKitView.setVisibility(View.VISIBLE);
 		AsyncRequest asyncRequest = new AsyncRequest();
@@ -54,6 +58,10 @@ public class MainActivity extends AppCompatActivity implements AsyncResults {
 		asyncRequest.execute(request);
 	}
 
+	/**
+	 * @param ans
+	 * 		JSON answer from Pixabay
+	 */
 	@Override
 	public void Finish(String ans) {
 		Gson gson = new GsonBuilder().create();
@@ -71,18 +79,22 @@ public class MainActivity extends AppCompatActivity implements AsyncResults {
 		imagesView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
 	}
 
+	/**
+	 * @param dp
+	 * 		dp-s
+	 * @return px-s
+	 */
 	private int dpToPx(int dp) {
 		Resources r = getResources();
 		return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
 	}
 
 	public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
-
 		private int spanCount;
 		private int spacing;
 		private boolean includeEdge;
 
-		public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
+		GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
 			this.spanCount = spanCount;
 			this.spacing = spacing;
 			this.includeEdge = includeEdge;

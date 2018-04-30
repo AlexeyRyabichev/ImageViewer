@@ -136,28 +136,4 @@ public class PixabayImage {
 	public String getPreviewURL() {
 		return previewURL;
 	}
-
-	//EXAMPLE
-//        "largeImageURL":"https://pixabay.com/get/ea36b40d2df5063ed1584d05fb1d4e9ee773ebd610ac104497f5c178a3e5bcbf_1280.jpg",
-//                "webformatHeight":428,
-//                "webformatWidth":640,
-//                "likes":53,
-//                "imageWidth":4855,
-//                "id":3352517,
-//                "user_id":1195798,
-//                "views":2811,
-//                "comments":34,
-//                "pageURL":"https://pixabay.com/en/poppy-flower-klatschmohn-3352517/",
-//                "imageHeight":3253,
-//                "webformatURL":"https://pixabay.com/get/ea36b40d2df5063ed1584d05fb1d4e9ee773ebd610ac104497f5c178a3e5bcbf_640.jpg",
-//                "type":"photo",
-//                "previewHeight":100,
-//                "tags":"poppy, flower, klatschmohn",
-//                "downloads":1682,
-//                "user":"Couleur",
-//                "favorites":19,
-//                "imageSize":2290959,
-//                "previewWidth":150,
-//                "userImageURL":"https://cdn.pixabay.com/user/2018/04/25/20-17-53-516_250x250.jpg",
-//                "previewURL":"https://cdn.pixabay.com/photo/2018/04/26/17/34/poppy-3352517_150.jpg"
 }

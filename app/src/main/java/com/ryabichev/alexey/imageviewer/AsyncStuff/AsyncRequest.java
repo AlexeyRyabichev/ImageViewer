@@ -28,7 +28,14 @@ public class AsyncRequest extends AsyncTask<String, Integer, String> {
 		delegate.Finish(s);
 	}
 
-	String run(String url) throws IOException {
+
+	/**
+	 * @param url
+	 * 		request url to Pixabay
+	 * @return JSON answer from Pixabay
+	 * @throws IOException Connection Exception
+	 */
+	private String run(String url) throws IOException {
 		Request request = new Request.Builder().url(url).build();
 
 		Response response = null;

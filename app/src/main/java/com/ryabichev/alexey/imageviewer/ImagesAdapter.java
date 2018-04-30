@@ -16,14 +16,12 @@ import com.ryabichev.alexey.imageviewer.PixabayStuff.PixabayImage;
 
 import java.util.List;
 
-import static java.lang.String.format;
-
 public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder> {
 
 	private Context context;
 	private List<PixabayImage> pixabayImages;
 
-	public ImagesAdapter(Context context, List<PixabayImage> pixabayImages) {
+	ImagesAdapter(Context context, List<PixabayImage> pixabayImages) {
 		this.context = context;
 		this.pixabayImages = pixabayImages;
 	}
@@ -38,8 +36,8 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
 	@Override
 	public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 		final PixabayImage pixabayImage = pixabayImages.get(position);
-		holder.likes.setText(format("Likes: %d", pixabayImage.getLikes()));
-		holder.views.setText(format("Views: %d", pixabayImage.getViews()));
+		holder.likes.setText(String.format("Likes: %d", pixabayImage.getLikes()));
+		holder.views.setText(String.format("Views: %d", pixabayImage.getViews()));
 
 		holder.image.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -64,11 +62,11 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
 
 	public class ViewHolder extends RecyclerView.ViewHolder {
 
-		public TextView likes;
-		public TextView views;
+		TextView likes;
+		TextView views;
 		public ImageView image;
 
-		public ViewHolder(View itemView) {
+		ViewHolder(View itemView) {
 			super(itemView);
 			likes = itemView.findViewById(R.id.likes_TextView);
 			views = itemView.findViewById(R.id.views_TextView);
