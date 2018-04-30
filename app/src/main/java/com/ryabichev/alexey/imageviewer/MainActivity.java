@@ -10,7 +10,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -34,13 +36,23 @@ public class MainActivity extends AppCompatActivity implements AsyncResults {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        String url = "https://pixabay.com/api/?key=" + getString(R.string.api_key) + "&q=yellow+flowers&image_type=photo";
-        AsyncRequest asyncRequest = new AsyncRequest();
-        asyncRequest.delegate = this;
-        asyncRequest.execute(url);
+        final TextView searchText = findViewById(R.id.search_text);
+        final ImageButton searchButton = findViewById(R.id.search_button);
 
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String request = "https://pixabay.com/api/?key=" + getString(R.string.api_key) + "&q=" + searchText.getText().toString().replaceAll(" ", "+") + "&image_type=photo";
+                FillView(request);
+            }
+        });
     }
 
+    private void FillView(String request){
+        AsyncRequest asyncRequest = new AsyncRequest();
+        asyncRequest.delegate = this;
+        asyncRequest.execute(request);
+    }
 
     @Override
     public void Finish(String ans) {
