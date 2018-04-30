@@ -1,7 +1,9 @@
 package com.ryabichev.alexey.imageviewer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,11 +47,22 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        PixabayImage pixabayImage = pixabayImages.get(position);
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+        final PixabayImage pixabayImage = pixabayImages.get(position);
         holder.likes.setText(format("Likes: %d", pixabayImage.getLikes()));
         holder.views.setText(format("Views: %d", pixabayImage.getViews()));
-//
+
+        holder.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ImageOpenerActivity.class);
+                intent.putExtra(ImageOpenerActivity.URL, pixabayImage.getLargeImageURL());
+
+                ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation((MainActivity) context, v, pixabayImage.getTags());
+                context.startActivity(intent, activityOptionsCompat.toBundle());
+            }
+        });
+
 //        //Downloading image
         Glide.with(context).load(pixabayImage.getPreviewURL()).into(holder.image);
     }
