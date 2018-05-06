@@ -4,4 +4,5 @@
     <string name="search_hint">What photo do you want to find?</string>
     <string name="search_button">Search button</string>
     <string name="custom_exception">Sorry, can\'t find images Please, try again later</string>
+    <string name="wrong_answer">Sorry, can\'t parse answer from site</string>
 </resources>

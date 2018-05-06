@@ -93,11 +93,12 @@ public class MainActivity extends AppCompatActivity implements AsyncResults {
 	@Override
 	public void Finish(String ans) {
 		Gson gson = new GsonBuilder().create();
-		PixabayAnswer pixabayAnswer = gson.fromJson(ans, PixabayAnswer.class);
-
-		ArrayList<PixabayImage> pixabayImages = new ArrayList<PixabayImage>();
 
 		try {
+			PixabayAnswer pixabayAnswer = gson.fromJson(ans, PixabayAnswer.class);
+
+			ArrayList<PixabayImage> pixabayImages = new ArrayList<PixabayImage>();
+
 			RecyclerView imagesView = findViewById(R.id.images_recyclerView);
 			RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
 			ImagesAdapter imagesAdapter = new ImagesAdapter(this, pixabayAnswer.getHits());
@@ -106,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements AsyncResults {
 			imagesView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
 		}catch (Exception e){
 			Log.e("EXECUTE EXCEPTION", e.getMessage());
-			Toast.makeText(this, R.string.custom_exception, Toast.LENGTH_LONG).show();
 		}
 		spinKitView.setVisibility(View.GONE);
 		//RecyclerView
