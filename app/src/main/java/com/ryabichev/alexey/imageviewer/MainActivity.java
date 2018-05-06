@@ -1,8 +1,12 @@
 package com.ryabichev.alexey.imageviewer;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +45,12 @@ public class MainActivity extends AppCompatActivity implements AsyncResults {
 		final ImageButton searchButton = findViewById(R.id.search_button);
 		spinKitView = findViewById(R.id.image_loader_SpinKit);
 		spinKitView.setVisibility(View.GONE);
+
+		while (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET)
+				!= PackageManager.PERMISSION_GRANTED){
+			ActivityCompat.requestPermissions(this,
+					new String[]{Manifest.permission.INTERNET},1);
+		}
 
 		//region Listeners
 		searchText.setOnKeyListener(new View.OnKeyListener() {
@@ -135,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResults {
 				if (position < spanCount) { // top edge
 					outRect.top = spacing;
 				}
-				outRect.bottom = spacing; // item bottom
+				outRect.bottom = dpToPx(20); // item bottom
 			} else {
 				outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
 				outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
